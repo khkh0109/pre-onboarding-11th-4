@@ -1,7 +1,14 @@
 import "./App.css";
+import Title from "./components/Title";
+import Search from "./components/Search";
 
 function App() {
-  return <div>vite</div>;
+  return (
+    <>
+      <Title />
+      <Search />
+    </>
+  );
 }
 
 export default App;
