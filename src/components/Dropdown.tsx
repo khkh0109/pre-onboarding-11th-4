@@ -1,12 +1,15 @@
 import { SearchSuggestions } from "../types";
 
 interface DropdownProps {
-  isInputValue: boolean;
   dropdownData: SearchSuggestions;
   inputRef: React.RefObject<HTMLInputElement>;
+  autoRef: React.RefObject<HTMLUListElement>;
+  liIndex: number;
 }
 
-function Dropdown({ isInputValue, dropdownData, inputRef }: DropdownProps) {
+function Dropdown(props: DropdownProps) {
+  const { dropdownData, inputRef, autoRef, liIndex } = props;
+
   const updateInputValue = (e: React.MouseEvent<HTMLLIElement>) => {
     if (inputRef.current === null) return;
     inputRef.current.value = e.currentTarget.innerText;
@@ -14,14 +17,16 @@ function Dropdown({ isInputValue, dropdownData, inputRef }: DropdownProps) {
 
   return (
     <>
-      {dropdownData.length === 0 && isInputValue ? (
+      {dropdownData.length === 0 ? (
         <div>검색어 없음</div>
       ) : (
-        <ul className={`${isInputValue ? "" : "hidden"} `}>
-          {dropdownData.map(item => (
+        <ul ref={autoRef}>
+          {dropdownData.map((item, idx) => (
             <li
               key={item.sickCd}
-              className="cursor-pointer"
+              className={`${
+                liIndex === idx ? "bg-sky-700" : ""
+              } cursor-pointer`}
               onClick={updateInputValue}
             >
               {item.sickNm}
