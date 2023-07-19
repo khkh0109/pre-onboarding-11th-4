@@ -1,28 +1,45 @@
-export class SearchAPI {
-  static #BASE_URL = "http://localhost:4000";
-  static #ENDPOINT = "sick";
+const BASE_URL = "http://localhost:4000";
+const ENDPOINT = "sick";
 
-  static async get(value: string) {
-    const URI = `${this.#BASE_URL}/${this.#ENDPOINT}?q=${value}`;
+async function fetchData(value: string, cache: Cache) {
+  const URI = `${BASE_URL}/${ENDPOINT}?q=${value}`;
+
+  const response = await fetch(URI);
+  const data = await response.clone().json();
+
+  if (response?.ok) {
+    const cacheData = {
+      data: data,
+      expiresAt: Date.now() + 1000 * 60 * 5,
+    };
+
+    cache.put(URI, new Response(JSON.stringify(cacheData)));
+  }
+
+  console.info("calling api");
+  return data;
+}
+
+export const searchAPI = {
+  async get(value: string) {
+    const URI = `${BASE_URL}/${ENDPOINT}?q=${value}`;
 
     const cache = await caches.open("test");
     const responseCache = await cache.match(URI);
 
     if (responseCache) {
       const cacheData = await responseCache.clone().json();
-      return cacheData;
+
+      if (Date.now() < cacheData.expiresAt) {
+        return cacheData.data;
+      } else {
+        cache.delete(URI);
+        return fetchData(value, cache);
+      }
     }
 
     if (responseCache === undefined) {
-      const response = await fetch(URI);
-      const data = await response.clone().json();
-
-      if (response?.ok) {
-        cache.put(URI, response);
-      }
-
-      console.info("calling api");
-      return data;
+      return fetchData(value, cache);
     }
-  }
-}
+  },
+};
