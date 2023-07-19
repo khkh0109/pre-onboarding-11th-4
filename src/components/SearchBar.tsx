@@ -5,10 +5,17 @@ interface SearchBarProps {
   isInputValue: boolean;
   changeIsInputValue: (value: string | undefined) => void;
   searchRequest: (value: string) => void;
+  updateLiIndex: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 function SearchBar(props: SearchBarProps) {
-  const { inputRef, isInputValue, changeIsInputValue, searchRequest } = props;
+  const {
+    inputRef,
+    isInputValue,
+    changeIsInputValue,
+    searchRequest,
+    updateLiIndex,
+  } = props;
   const [timerId, setTimerId] = useState<number | undefined>(undefined);
 
   const handleInputChange = () => {
@@ -32,6 +39,7 @@ function SearchBar(props: SearchBarProps) {
         placeholder="질환명을 입력해 주세요."
         onChange={handleInputChange}
         ref={inputRef}
+        onKeyDown={updateLiIndex}
       />
       <button
         onClick={() => {
