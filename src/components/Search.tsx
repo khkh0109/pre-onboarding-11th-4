@@ -21,7 +21,6 @@ function Search() {
     try {
       const data = await SearchAPI.get(value);
       setDropdownData(data);
-      console.info("calling api");
     } catch (err) {
       console.error(err);
     }
