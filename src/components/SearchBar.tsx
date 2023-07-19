@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface SearchBarProps {
   inputRef: React.RefObject<HTMLInputElement>;
   isInputValue: boolean;
@@ -7,13 +9,20 @@ interface SearchBarProps {
 
 function SearchBar(props: SearchBarProps) {
   const { inputRef, isInputValue, changeIsInputValue, searchRequest } = props;
+  const [timerId, setTimerId] = useState<number | undefined>(undefined);
 
   const handleInputChange = () => {
-    const inputValue = inputRef.current?.value;
-    changeIsInputValue(inputValue);
-    if (inputValue !== undefined && inputValue !== "") {
-      searchRequest(inputValue);
+    if (timerId) {
+      clearTimeout(timerId);
     }
+    const newTimerId = setTimeout(() => {
+      const inputValue = inputRef.current?.value;
+      changeIsInputValue(inputValue);
+      if (inputValue !== undefined && inputValue !== "") {
+        searchRequest(inputValue);
+      }
+    }, 500);
+    setTimerId(newTimerId);
   };
 
   return (
