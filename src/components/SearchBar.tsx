@@ -33,23 +33,25 @@ function SearchBar(props: SearchBarProps) {
   };
 
   return (
-    <>
+    <div className="flex">
       <input
         type="text"
         placeholder="질환명을 입력해 주세요."
         onChange={handleInputChange}
         ref={inputRef}
         onKeyDown={updateLiIndex}
+        className="h-16 w-56 rounded-l-full p-6 focus:outline-sky-500"
       />
       <button
         onClick={() => {
           if (!isInputValue) return;
           alert("해당 기능은 구현중입니다.");
         }}
+        className="h-16 w-20 rounded-r-full bg-sky-500 p-4 font-bold"
       >
         검색
       </button>
-    </>
+    </div>
   );
 }
 

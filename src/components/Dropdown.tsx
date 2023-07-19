@@ -18,15 +18,15 @@ function Dropdown(props: DropdownProps) {
   return (
     <>
       {dropdownData.length === 0 ? (
-        <div>검색어 없음</div>
+        <div className="mt-6">검색어 없음</div>
       ) : (
-        <ul ref={autoRef}>
+        <ul ref={autoRef} className="w-66 mt-6 rounded-2xl bg-white p-4">
           {dropdownData.map((item, idx) => (
             <li
               key={item.sickCd}
               className={`${
-                liIndex === idx ? "bg-sky-700" : ""
-              } cursor-pointer`}
+                liIndex === idx ? "bg-slate-100" : ""
+              } cursor-pointer rounded-md p-2`}
               onClick={updateInputValue}
             >
               {item.sickNm}
