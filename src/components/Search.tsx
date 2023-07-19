@@ -34,7 +34,11 @@ function Search() {
         changeIsInputValue={changeIsInputValue}
         searchRequest={searchRequest}
       />
-      <Dropdown isInputValue={isInputValue} dropdownData={dropdownData} />
+      <Dropdown
+        isInputValue={isInputValue}
+        dropdownData={dropdownData}
+        inputRef={inputRef}
+      />
     </>
   );
 }
