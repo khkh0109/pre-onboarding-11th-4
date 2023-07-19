@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import SearchBar from "./SearchBar";
 import Dropdown from "./Dropdown";
-import { SearchAPI } from "../api/search";
+import { searchAPI } from "../api/search";
 import { SearchSuggestions } from "../types";
 
 function Search() {
@@ -21,7 +21,7 @@ function Search() {
 
   const searchRequest = async (value: string) => {
     try {
-      const data = await SearchAPI.get(value);
+      const data = await searchAPI.get(value);
       setDropdownData(data);
     } catch (err) {
       console.error(err);
